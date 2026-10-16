@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import multer from 'multer';
 
 import { RoomManager } from './rooms.js';
 import { registerPlaybackHandlers } from './handlers/playbackHandler.js';
@@ -36,7 +37,6 @@ try {
   console.error('Failed to load movies.json:', err.message);
 }
 
-import multer from 'multer';
 
 // Static uploads serving
 const uploadsDir = path.join(__dirname, 'uploads');
@@ -91,13 +91,12 @@ app.get('/api/movies', (req, res) => {
 
 const httpServer = createServer(app);
 
-// Socket.IO with WebSocket transport only as required by Spec Section 3
+// Socket.IO — WebSocket-only transport for minimal latency on localhost
 const io = new Server(httpServer, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
-  },
-  transports: ['websocket']
+  cors: { origin: '*', methods: ['GET', 'POST'] },
+  transports: ['websocket'],
+  pingTimeout: 20000,
+  pingInterval: 10000
 });
 
 const roomManager = new RoomManager({
@@ -344,3 +343,4 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 export { app, httpServer, io, roomManager };
+export default app;

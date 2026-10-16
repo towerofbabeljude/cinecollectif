@@ -5,11 +5,18 @@ package-lock.json
 # Build outputs
 dist/
 build/
+.next/
 
 # Environment
 .env
 .env.local
+.env.production
 *.local
+
+# Vercel / deployment artifacts
+.vercel/
+vercel.json
+render.yaml
 
 # Logs
 *.log
@@ -23,6 +30,9 @@ Thumbs.db
 
 # Zip files
 *.zip
+
+# Uploads (user-generated, not tracked)
+server/uploads/
 
 # Playwright
 test-results/

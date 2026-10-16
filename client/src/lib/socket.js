@@ -17,10 +17,9 @@ export function generateCmdId() {
   return 'cmd_' + clientId + '_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
 }
 
-// Socket instance with WebSocket transport only
-const socketUrl = window.location.origin.includes('5173')
-  ? 'http://localhost:3001'
-  : window.location.origin;
+// Local-first Socket.IO connection — WebSocket transport only for zero handshake latency.
+// The Vite dev server runs on :5173, backend on :3001.
+const socketUrl = 'http://localhost:3001';
 
 export const socket = io(socketUrl, {
   transports: ['websocket'],
