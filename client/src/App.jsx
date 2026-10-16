@@ -107,15 +107,19 @@ export default function App() {
     );
   }
 
-  return currentRoomCode ? (
-    <Room
-      roomCode={currentRoomCode}
-      initialSnapshot={snapshot}
-      userName={userName}
-      onLeaveRoom={handleLeaveRoom}
-      movies={movies}
-    />
-  ) : (
-    <Home onJoinRoom={handleJoinRoom} movies={movies} />
+  return (
+    <>
+      {currentRoomCode ? (
+        <Room
+          roomCode={currentRoomCode}
+          initialSnapshot={snapshot}
+          userName={userName}
+          onLeaveRoom={handleLeaveRoom}
+          movies={movies}
+        />
+      ) : (
+        <Home onJoinRoom={handleJoinRoom} movies={movies} />
+      )}
+    </>
   );
 }

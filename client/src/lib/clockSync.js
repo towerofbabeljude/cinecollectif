@@ -41,13 +41,13 @@ class ClockSync {
   // Ping helper returning a promise
   pingSample() {
     return new Promise((resolve) => {
-      const t0 = performance.timeOrigin + performance.now();
+      const t0 = Math.round(performance.timeOrigin + performance.now());
       
       const onPong = (data) => {
-        if (data.t0 === t0) {
+        if (Math.abs(data.t0 - t0) <= 2) {
           socket.off('time:pong', onPong);
-          const t2 = performance.timeOrigin + performance.now();
-          const rtt = t2 - t0;
+          const t2 = Math.round(performance.timeOrigin + performance.now());
+          const rtt = Math.max(0, t2 - t0);
           const offset = data.t1 - (t0 + rtt / 2);
           resolve({ rtt, offset });
         }
@@ -100,6 +100,7 @@ class ClockSync {
         const best = samples[0];
         this.rtt = 0.8 * this.rtt + 0.2 * best.rtt;
         this.offset = 0.8 * this.offset + 0.2 * best.offset;
+        this.synced = true;
         this.notify();
       }
     }, 30000);

@@ -1,4 +1,10 @@
 import crypto from 'crypto';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export function registerPlaylistHandlers(io, socket, roomManager) {
   // Add item to playlist
@@ -11,11 +17,26 @@ export function registerPlaylistHandlers(io, socket, roomManager) {
       return typeof ack === 'function' && ack({ error: 'Invalid parameters' });
     }
 
+    let resolvedVideoUrl = videoUrl || null;
+    let resolvedTitle = title || null;
+
+    if (!resolvedVideoUrl && videoId) {
+      try {
+        const raw = fs.readFileSync(path.join(__dirname, '..', 'data', 'movies.json'), 'utf-8');
+        const catalog = JSON.parse(raw);
+        const match = catalog.find((m) => m.id === videoId);
+        if (match) {
+          resolvedVideoUrl = match.videoUrl;
+          resolvedTitle = resolvedTitle || match.title;
+        }
+      } catch (err) {}
+    }
+
     const newItem = {
       itemId: crypto.randomUUID(),
       videoId: videoId || `custom_${Date.now()}`,
-      videoUrl: videoUrl || null,
-      title: title || 'Custom Video',
+      videoUrl: resolvedVideoUrl,
+      title: resolvedTitle || 'Custom Video',
       addedBy: clientId,
       addedByName: room.members[clientId]?.name || 'Guest',
       addedAt: Date.now()

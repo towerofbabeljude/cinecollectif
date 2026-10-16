@@ -96,12 +96,22 @@ export default function Discover({
   const handlePlayNow = (movie) => {
     if (!canControl) return;
     const cmdId = generateCmdId();
-    socket.emit('playback:load', { cmdId, videoId: movie.id, clientId });
+    socket.emit('playback:load', {
+      cmdId,
+      videoId: movie.id,
+      videoUrl: movie.videoUrl,
+      title: movie.title,
+      clientId
+    });
     if (onClose) onClose();
   };
 
   const handleAddToPlaylist = (movie) => {
-    socket.emit('playlist:add', { videoId: movie.id, title: movie.title });
+    socket.emit('playlist:add', {
+      videoId: movie.id,
+      videoUrl: movie.videoUrl,
+      title: movie.title
+    });
   };
 
   return (

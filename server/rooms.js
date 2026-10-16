@@ -211,8 +211,9 @@ export class RoomManager {
       };
     }
 
-    // If room had no connected host, assign host to this member
-    if (!room.members[room.hostId] || !room.members[room.hostId].connected) {
+    // Only auto-assign host if the host member record is completely gone (e.g. kicked).
+    // If host is simply disconnected, the grace period timer handles transfer.
+    if (!room.members[room.hostId]) {
       room.hostId = clientId;
     }
 

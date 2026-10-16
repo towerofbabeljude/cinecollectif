@@ -44,6 +44,16 @@ export default function Room({ roomCode, initialSnapshot, userName, onLeaveRoom,
 
   const isHost = hostId === clientId;
 
+  const membersRef = React.useRef(members);
+  useEffect(() => {
+    membersRef.current = members;
+  }, [members]);
+
+  const playbackStateRef = React.useRef(playbackState);
+  useEffect(() => {
+    playbackStateRef.current = playbackState;
+  }, [playbackState]);
+
   // Find currently active movie metadata (custom stream or catalog movie)
   const currentVideo = useMemo(() => {
     if (playbackState?.videoUrl) {
@@ -58,6 +68,24 @@ export default function Room({ roomCode, initialSnapshot, userName, onLeaveRoom,
 
   // Set up socket listeners
   useEffect(() => {
+    // 0. Auto-rejoin on Socket.IO reconnect
+    const handleConnect = () => {
+      socket.emit(
+        'room:rejoin',
+        {
+          code: roomCode,
+          clientId,
+          name: userName,
+          lastVersion: playbackStateRef.current?.version || 0
+        },
+        (res) => {
+          if (res && res.success && res.snapshot) {
+            handleSnapshot(res.snapshot);
+          }
+        }
+      );
+    };
+
     // 1. Snapshot
     const handleSnapshot = (snap) => {
       setSnapshot(snap);
@@ -131,7 +159,7 @@ export default function Room({ roomCode, initialSnapshot, userName, onLeaveRoom,
     // 7. Host change
     const handleHostChange = ({ hostId: newHostId, reason }) => {
       setHostId(newHostId);
-      const name = members[newHostId]?.name || 'Participant';
+      const name = membersRef.current[newHostId]?.name || 'Participant';
       setRoomAlert(`Crown transferred! ${name} is now the party host.`);
       setTimeout(() => setRoomAlert(''), 5000);
     };
@@ -176,6 +204,7 @@ export default function Room({ roomCode, initialSnapshot, userName, onLeaveRoom,
       onLeaveRoom();
     };
 
+    socket.on('connect', handleConnect);
     socket.on('room:snapshot', handleSnapshot);
     socket.on('playback:update', handlePlaybackUpdate);
     socket.on('playback:heartbeat', handleHeartbeat);
@@ -192,6 +221,7 @@ export default function Room({ roomCode, initialSnapshot, userName, onLeaveRoom,
     socket.on('room:kicked', handleKicked);
 
     return () => {
+      socket.off('connect', handleConnect);
       socket.off('room:snapshot', handleSnapshot);
       socket.off('playback:update', handlePlaybackUpdate);
       socket.off('playback:heartbeat', handleHeartbeat);
@@ -207,7 +237,7 @@ export default function Room({ roomCode, initialSnapshot, userName, onLeaveRoom,
       socket.off('poll:update', handlePollUpdate);
       socket.off('room:kicked', handleKicked);
     };
-  }, [members, onLeaveRoom]);
+  }, [roomCode, userName, onLeaveRoom]);
 
   // Trigger floating reaction animation
   const triggerReactionVisual = useCallback((emoji) => {
@@ -393,6 +423,7 @@ export default function Room({ roomCode, initialSnapshot, userName, onLeaveRoom,
             controlMode={controlMode}
             reactions={floatingReactions}
             onOpenCustomVideo={() => setShowCustomVideoModal(true)}
+            onOpenCatalog={() => setShowDiscover(true)}
           />
         </div>
 

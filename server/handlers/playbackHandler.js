@@ -1,3 +1,10 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 export function registerPlaybackHandlers(io, socket, roomManager) {
   // Helper to verify command authority
   function canControlPlayback(room, clientId) {
@@ -142,9 +149,27 @@ export function registerPlaybackHandlers(io, socket, roomManager) {
     }
 
     const now = Date.now();
+    let resolvedVideoUrl = videoUrl || null;
+    let resolvedTitle = title || null;
+
+    // Fallback: If videoUrl is not supplied, look up videoId in movies.json
+    if (!resolvedVideoUrl && videoId) {
+      try {
+        const raw = fs.readFileSync(path.join(__dirname, '..', 'data', 'movies.json'), 'utf-8');
+        const catalog = JSON.parse(raw);
+        const match = catalog.find((m) => m.id === videoId);
+        if (match) {
+          resolvedVideoUrl = match.videoUrl;
+          resolvedTitle = resolvedTitle || match.title;
+        }
+      } catch (err) {
+        // ignore
+      }
+    }
+
     room.playback.videoId = videoId || `custom_${Date.now()}`;
-    room.playback.videoUrl = videoUrl || null;
-    room.playback.title = title || null;
+    room.playback.videoUrl = resolvedVideoUrl;
+    room.playback.title = resolvedTitle;
     room.playback.position = 0;
     room.playback.state = 'paused';
     room.playback.updatedAt = now;
