@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { socket, clientId } from './lib/socket';
 import Home from './pages/Home';
 import Room from './pages/Room';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 export default function App() {
   const [currentRoomCode, setCurrentRoomCode] = useState(null);
@@ -107,15 +108,20 @@ export default function App() {
     );
   }
 
-  return currentRoomCode ? (
-    <Room
-      roomCode={currentRoomCode}
-      initialSnapshot={snapshot}
-      userName={userName}
-      onLeaveRoom={handleLeaveRoom}
-      movies={movies}
-    />
-  ) : (
-    <Home onJoinRoom={handleJoinRoom} movies={movies} />
+  return (
+    <>
+      {currentRoomCode ? (
+        <Room
+          roomCode={currentRoomCode}
+          initialSnapshot={snapshot}
+          userName={userName}
+          onLeaveRoom={handleLeaveRoom}
+          movies={movies}
+        />
+      ) : (
+        <Home onJoinRoom={handleJoinRoom} movies={movies} />
+      )}
+      <SpeedInsights />
+    </>
   );
 }
