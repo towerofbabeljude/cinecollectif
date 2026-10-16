@@ -1,0 +1,24 @@
+{
+  "name": "syncwatch-server",
+  "version": "1.0.0",
+  "description": "Real-time sync watch party backend",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "fuse.js": "^7.5.0",
+    "multer": "^2.4.0",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "socket.io-client": "^4.8.1",
+    "vitest": "^2.1.8"
+  }
+}

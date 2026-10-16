@@ -1,0 +1,27 @@
+{
+  "test": "Control propagation latency (C2)",
+  "timestamp": "2026-10-16T13:00:46.025Z",
+  "users": 10,
+  "command": "play",
+  "durationSeconds": 10,
+  "samplesCount": 12,
+  "p50": 3,
+  "p95": 4,
+  "p99": 4,
+  "max": 4,
+  "pass": true,
+  "samples": [
+    4,
+    2,
+    2,
+    3,
+    3,
+    4,
+    4,
+    3,
+    1,
+    1,
+    4,
+    2
+  ]
+}

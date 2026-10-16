@@ -1,0 +1,21 @@
+{
+  "name": "syncwatch-root",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "dev": "concurrently \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "install:all": "npm --prefix server install && npm --prefix client install",
+    "test:server": "npm --prefix server test",
+    "test:load": "node tools/load-test.js --users 10 --duration 10",
+    "test:drift": "node tools/drift-test.js"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.8.4"
+  }
+}

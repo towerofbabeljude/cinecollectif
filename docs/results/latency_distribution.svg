@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360">
+  <rect width="100%" height="100%" fill="#0c0f17" />
+  <text x="320" y="30" fill="#f8fafc" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">
+    SyncWatch Control Propagation Latency CDF (59 Samples)
+  </text>
+  
+  <!-- Axes -->
+  <line x1="50" y1="310" x2="590" y2="310" stroke="#334155" stroke-width="2" />
+  <line x1="50" y1="50" x2="50" y2="310" stroke="#334155" stroke-width="2" />
+  
+  <!-- Labels -->
+  <text x="320" y="345" fill="#94a3b8" font-family="sans-serif" font-size="11" text-anchor="middle">Latency (ms)</text>
+  <text x="18" y="180" fill="#94a3b8" font-family="sans-serif" font-size="11" transform="rotate(-90 18 180)" text-anchor="middle">Cumulative Probability</text>
+  
+  <!-- C2 Target Line (250ms threshold) -->
+  <line x1="569.2307692307693" y1="50" x2="569.2307692307693" y2="310" stroke="#ef4444" stroke-dasharray="4" />
+  
+  <!-- CDF Curve -->
+  <polyline fill="none" stroke="#6366f1" stroke-width="3" points="104.0,305.6 104.0,301.2 158.0,296.8 158.0,292.4 158.0,288.0 158.0,283.6 158.0,279.2 158.0,274.7 158.0,270.3 158.0,265.9 158.0,261.5 158.0,257.1 212.0,252.7 212.0,248.3 212.0,243.9 212.0,239.5 212.0,235.1 212.0,230.7 212.0,226.3 212.0,221.9 212.0,217.5 212.0,213.1 212.0,208.6 212.0,204.2 212.0,199.8 212.0,195.4 212.0,191.0 212.0,186.6 212.0,182.2 212.0,177.8 212.0,173.4 212.0,169.0 266.0,164.6 266.0,160.2 266.0,155.8 266.0,151.4 266.0,146.9 266.0,142.5 266.0,138.1 266.0,133.7 266.0,129.3 266.0,124.9 266.0,120.5 266.0,116.1 266.0,111.7 266.0,107.3 266.0,102.9 266.0,98.5 266.0,94.1 266.0,89.7 266.0,85.3 266.0,80.8 266.0,76.4 266.0,72.0 320.0,67.6 320.0,63.2 320.0,58.8 428.0,54.4 428.0,50.0" />
+  
+  <text x="580" y="70" fill="#10b981" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="end">
+    p95 ≤ 7ms (Target ≤ 250ms ✅)
+  </text>
+</svg>

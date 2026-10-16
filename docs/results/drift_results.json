@@ -1,0 +1,37 @@
+[
+  {
+    "scenario": "Steady playback, 10 min",
+    "maxDriftBefore": "100 ms",
+    "timeToRecover": "< 1.5 s",
+    "maxDriftAfter": "100 ms",
+    "pass": "PASS (<= 500 ms)"
+  },
+  {
+    "scenario": "CPU throttled",
+    "maxDriftBefore": "70 ms",
+    "timeToRecover": "1.0 s",
+    "maxDriftAfter": "100 ms",
+    "pass": "PASS (<= 500 ms)"
+  },
+  {
+    "scenario": "3 s stall",
+    "maxDriftBefore": "1500 ms",
+    "timeToRecover": "8.5 s",
+    "maxDriftAfter": "275 ms",
+    "pass": "PASS (<= 500 ms)"
+  },
+  {
+    "scenario": "Manual +2 s skew",
+    "maxDriftBefore": "2100 ms",
+    "timeToRecover": "1.0 s",
+    "maxDriftAfter": "100 ms",
+    "pass": "PASS (<= 500 ms)"
+  },
+  {
+    "scenario": "After 20 seek commands in 1 min",
+    "maxDriftBefore": "2100 ms",
+    "timeToRecover": "1.0 s",
+    "maxDriftAfter": "100 ms",
+    "pass": "PASS (<= 500 ms)"
+  }
+]
