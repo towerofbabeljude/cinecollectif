@@ -344,3 +344,4 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 export { app, httpServer, io, roomManager };
+export default app;

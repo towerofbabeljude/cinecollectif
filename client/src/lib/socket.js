@@ -18,9 +18,9 @@ export function generateCmdId() {
 }
 
 // Socket instance with WebSocket transport only
-const socketUrl = window.location.origin.includes('5173')
-  ? 'http://localhost:3001'
-  : window.location.origin;
+const socketUrl = typeof window !== 'undefined'
+  ? (window.location.port === '5173' ? 'http://localhost:3001' : window.location.origin)
+  : 'http://localhost:3001';
 
 export const socket = io(socketUrl, {
   transports: ['websocket'],
