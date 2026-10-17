@@ -9,7 +9,6 @@ import {
   Plus,
   Tv,
   Upload,
-  Link2,
   Star,
   Search,
   Filter,
@@ -920,146 +919,6 @@ export default function Home({ onJoinRoom, movies = [] }) {
             </div>
           )}
         </div>
-
-        {/* Features Showcase */}
-        <div style={{ marginTop: '60px' }}>
-          <div style={{ textAlign: 'center', marginBottom: 28 }}>
-            <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: '#ffffff', letterSpacing: '0.02em' }}>
-              Built For Your Favorite Content
-            </h3>
-            <p style={{ fontSize: '0.88rem', color: '#94a3b8', marginTop: 4 }}>
-              YouTube, local files, or verified movies — all in perfect synchronized playback.
-            </p>
-          </div>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-              gap: 18
-            }}
-          >
-            <div
-              className="glass-panel"
-              style={{
-                padding: '24px',
-                backgroundColor: 'rgba(18, 5, 8, 0.85)',
-                border: '1px solid var(--border-subtle)'
-              }}
-            >
-              <div
-                style={{
-                  width: 42,
-                  height: 42,
-                  borderRadius: '12px',
-                  background: 'rgba(220, 38, 38, 0.2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: 16
-                }}
-              >
-                <Link2 size={20} color="#ef4444" />
-              </div>
-              <h4 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fff', marginBottom: 8 }}>
-                YouTube Sync
-              </h4>
-              <p style={{ fontSize: '0.82rem', color: '#94a3b8', lineHeight: 1.5 }}>
-                Paste any YouTube video link. Play, pause, and scrubber positions stay perfectly in sync.
-              </p>
-            </div>
-
-            <div
-              className="glass-panel"
-              style={{
-                padding: '24px',
-                backgroundColor: 'rgba(18, 5, 8, 0.85)',
-                border: '1px solid var(--border-subtle)'
-              }}
-            >
-              <div
-                style={{
-                  width: 42,
-                  height: 42,
-                  borderRadius: '12px',
-                  background: 'rgba(220, 38, 38, 0.2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: 16
-                }}
-              >
-                <Upload size={20} color="#ef4444" />
-              </div>
-              <h4 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fff', marginBottom: 8 }}>
-                Local Video Files
-              </h4>
-              <p style={{ fontSize: '0.82rem', color: '#94a3b8', lineHeight: 1.5 }}>
-                Upload MP4 or WebM video files directly from your laptop to stream to the whole room.
-              </p>
-            </div>
-
-            <div
-              className="glass-panel"
-              style={{
-                padding: '24px',
-                backgroundColor: 'rgba(18, 5, 8, 0.85)',
-                border: '1px solid var(--border-subtle)'
-              }}
-            >
-              <div
-                style={{
-                  width: 42,
-                  height: 42,
-                  borderRadius: '12px',
-                  background: 'rgba(220, 38, 38, 0.2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: 16
-                }}
-              >
-                <Sparkles size={20} color="#ef4444" />
-              </div>
-              <h4 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fff', marginBottom: 8 }}>
-                Real-Time Clock Sync
-              </h4>
-              <p style={{ fontSize: '0.82rem', color: '#94a3b8', lineHeight: 1.5 }}>
-                Sub-millisecond server clock alignment and automatic drift correction keep everyone in step.
-              </p>
-            </div>
-
-            <div
-              className="glass-panel"
-              style={{
-                padding: '24px',
-                backgroundColor: 'rgba(18, 5, 8, 0.85)',
-                border: '1px solid var(--border-subtle)'
-              }}
-            >
-              <div
-                style={{
-                  width: 42,
-                  height: 42,
-                  borderRadius: '12px',
-                  background: 'rgba(220, 38, 38, 0.2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: 16
-                }}
-              >
-                <Users size={20} color="#ef4444" />
-              </div>
-              <h4 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fff', marginBottom: 8 }}>
-                Chat, Reactions & Polls
-              </h4>
-              <p style={{ fontSize: '0.82rem', color: '#94a3b8', lineHeight: 1.5 }}>
-                Engage in live room chat, send animated floating emoji reactions, and vote on what to watch next.
-              </p>
-            </div>
-          </div>
-        </div>
       </main>
 
       {/* Custom Video / Upload Modal */}
@@ -1070,19 +929,6 @@ export default function Home({ onJoinRoom, movies = [] }) {
           onVideoLoaded={handleCustomVideoCreated}
         />
       )}
-
-      <footer
-        style={{
-          marginTop: '60px',
-          paddingTop: '20px',
-          borderTop: '1px solid var(--border-subtle)',
-          textAlign: 'center',
-          color: '#94a3b8',
-          fontSize: '0.8rem'
-        }}
-      >
-        Ciné-Collectif • Watch Parties in Sync
-      </footer>
     </div>
   );
 }
