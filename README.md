@@ -4,15 +4,6 @@ A full-stack, real-time watch-party application where multiple users watch video
 
 ---
 
-## 🎥 Working Demo
-
-> **[▶ Watch the Demo Video](https://your-demo-video-link-here)**
-
-> [!IMPORTANT]
-> Because serverless platforms do not natively sustain persistent WebSocket connections, the app is **fully optimized for local evaluation**. Follow the steps below to spin up both servers and experience the complete feature set.
-
----
-
 ## ✨ Key Features
 
 | Category | Features |

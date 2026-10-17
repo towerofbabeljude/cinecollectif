@@ -75,6 +75,121 @@ app.post('/api/upload', upload.single('video'), (req, res) => {
 });
 
 // REST endpoints
+app.get('/', (req, res) => {
+  if (req.accepts('html')) {
+    res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ciné-Collectif Backend Status</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 2.5rem;
+      max-width: 520px;
+      width: 90%;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #064e3b;
+      color: #34d399;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      margin-bottom: 1rem;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
+    }
+    h1 { margin: 0 0 0.5rem; font-size: 1.75rem; font-weight: 700; }
+    p { color: #94a3b8; margin: 0 0 1.5rem; line-height: 1.5; font-size: 0.95rem; }
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.9; }
+    .endpoints {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #334155;
+      text-align: left;
+    }
+    .endpoints h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 0.75rem; }
+    .endpoint-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 0.85rem;
+    }
+    .endpoint-item a { color: #38bdf8; text-decoration: none; font-family: monospace; }
+    .endpoint-item a:hover { text-decoration: underline; }
+    .endpoint-item span { color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge"><span class="dot"></span> Backend Active</div>
+    <h1>Ciné-Collectif Server</h1>
+    <p>The backend API & WebSocket server is running properly. To use the app, open the web client UI:</p>
+    <a class="btn" href="http://localhost:5173">Open Web App (localhost:5173)</a>
+    <div class="endpoints">
+      <h3>Available Endpoints</h3>
+      <div class="endpoint-item">
+        <a href="/api/health">/api/health</a>
+        <span>Health check & room count</span>
+      </div>
+      <div class="endpoint-item">
+        <a href="/api/movies">/api/movies</a>
+        <span>Movie catalog list</span>
+      </div>
+      <div class="endpoint-item">
+        <a href="/uploads">/uploads</a>
+        <span>Static uploaded media</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`);
+  } else {
+    res.json({
+      status: 'ok',
+      service: 'cinecollectif-backend',
+      frontendUrl: 'http://localhost:5173',
+      endpoints: ['/api/health', '/api/movies', '/api/upload', '/uploads']
+    });
+  }
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', uptime: process.uptime(), roomsCount: roomManager.rooms.size });
 });
