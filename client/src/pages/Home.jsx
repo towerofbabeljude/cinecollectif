@@ -18,6 +18,19 @@ import {
 import { socket, clientId } from '../lib/socket';
 import CustomVideoModal from '../components/CustomVideoModal';
 
+export function getMovieThumbnail(movie) {
+  if (!movie) return '';
+  if (movie.thumbnail) return movie.thumbnail;
+  if (movie.poster && !movie.poster.includes('wikimedia.org')) return movie.poster;
+  if (movie.videoUrl) {
+    const ytMatch = movie.videoUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+    if (ytMatch && ytMatch[1]) {
+      return `https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`;
+    }
+  }
+  return movie.poster || '';
+}
+
 const DEFAULT_MOVIES = [
   {
     id: 'bbb',
@@ -30,7 +43,8 @@ const DEFAULT_MOVIES = [
     cast: ['Jan Morgenstern', 'Sacha Goedegebure'],
     tags: ['bunny', 'forest', 'funny', 'blender', 'short'],
     videoUrl: 'https://www.youtube.com/watch?v=aqz-KE-bpKQ',
-    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Big_buck_bunny_poster_big.jpg/800px-Big_buck_bunny_poster_big.jpg',
+    poster: 'https://img.youtube.com/vi/aqz-KE-bpKQ/hqdefault.jpg',
+    thumbnail: 'https://img.youtube.com/vi/aqz-KE-bpKQ/hqdefault.jpg',
     description: 'A large and lovable rabbit deals with three bullying rodents in this classic Blender Foundation open movie.'
   },
   {
@@ -44,7 +58,8 @@ const DEFAULT_MOVIES = [
     cast: ['Halina Reijn', 'Thom Hoffman'],
     tags: ['dragon', 'journey', 'warrior', 'blender', 'emotional'],
     videoUrl: 'https://www.youtube.com/watch?v=eRsGyueVLvQ',
-    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Sintel_poster.jpg/800px-Sintel_poster.jpg',
+    poster: 'https://img.youtube.com/vi/eRsGyueVLvQ/hqdefault.jpg',
+    thumbnail: 'https://img.youtube.com/vi/eRsGyueVLvQ/hqdefault.jpg',
     description: 'A girl searches the world for a baby dragon she befriended. A moving epic by the Blender Foundation.'
   },
   {
@@ -58,7 +73,8 @@ const DEFAULT_MOVIES = [
     cast: ['Derek de Lint', 'Sergio Hasselbaink', 'Rogier Schippers'],
     tags: ['cyberpunk', 'robots', 'amsterdam', 'dystopian', 'vfx'],
     videoUrl: 'https://www.youtube.com/watch?v=R6MlUcmOul8',
-    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Tears_of_Steel_poster.jpg/800px-Tears_of_Steel_poster.jpg',
+    poster: 'https://img.youtube.com/vi/R6MlUcmOul8/hqdefault.jpg',
+    thumbnail: 'https://img.youtube.com/vi/R6MlUcmOul8/hqdefault.jpg',
     description: 'Warriors fight a city-threatening robot army in the Netherlands, in this Blender VFX showcase film.'
   },
   {
@@ -72,7 +88,8 @@ const DEFAULT_MOVIES = [
     cast: ['Tygo Gernandt', 'Cas Jansen'],
     tags: ['machine', 'surreal', 'blender', 'steampunk', 'pioneer'],
     videoUrl: 'https://www.youtube.com/watch?v=TLkA0RELQ1g',
-    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Elephants_Dream_poster.jpg/800px-Elephants_Dream_poster.jpg',
+    poster: 'https://img.youtube.com/vi/TLkA0RELQ1g/hqdefault.jpg',
+    thumbnail: 'https://img.youtube.com/vi/TLkA0RELQ1g/hqdefault.jpg',
     description: "The world's first open movie — a surreal steampunk journey inside a mechanical fantasy world."
   },
   {
@@ -86,7 +103,8 @@ const DEFAULT_MOVIES = [
     cast: ['Pierre Bokma', 'Reinout Scholten van Aschat'],
     tags: ['sheep', 'island', 'paradise', 'philosophical', 'blender'],
     videoUrl: 'https://www.youtube.com/watch?v=Y-rmzh0PI3c',
-    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Cosmos_Laundromat_Poster.jpg/800px-Cosmos_Laundromat_Poster.jpg',
+    poster: 'https://img.youtube.com/vi/Y-rmzh0PI3c/hqdefault.jpg',
+    thumbnail: 'https://img.youtube.com/vi/Y-rmzh0PI3c/hqdefault.jpg',
     description: 'On a desolate island, a suicidal sheep finds himself in the hands of a mysterious entity offering a second chance.'
   },
   {
@@ -100,7 +118,8 @@ const DEFAULT_MOVIES = [
     cast: ['Colin McFarlane'],
     tags: ['80s', 'monsters', 'forest', 'dark comedy', 'teens'],
     videoUrl: 'https://www.youtube.com/watch?v=_cMxraX_5RE',
-    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Sprite_Fright_Poster.jpg/800px-Sprite_Fright_Poster.jpg',
+    poster: 'https://img.youtube.com/vi/_cMxraX_5RE/hqdefault.jpg',
+    thumbnail: 'https://img.youtube.com/vi/_cMxraX_5RE/hqdefault.jpg',
     description: 'A group of 80s teenagers venture into an enchanted forest, only to meet tiny but deadly mushroom monsters.'
   },
   {
@@ -114,7 +133,8 @@ const DEFAULT_MOVIES = [
     cast: ['Blender Studio'],
     tags: ['nature', 'spirits', 'mountains', 'seasons', 'blender'],
     videoUrl: 'https://www.youtube.com/watch?v=WhWc3b3KhnY',
-    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Spring_-_Blender_Open_Movie.png/800px-Spring_-_Blender_Open_Movie.png',
+    poster: 'https://img.youtube.com/vi/WhWc3b3KhnY/hqdefault.jpg',
+    thumbnail: 'https://img.youtube.com/vi/WhWc3b3KhnY/hqdefault.jpg',
     description: 'A young deer awakes in the mountains and tries to find her place in a world filled with magical creatures.'
   },
   {
@@ -128,7 +148,8 @@ const DEFAULT_MOVIES = [
     cast: ['Blender Studio'],
     tags: ['grease pencil', 'action', 'short', 'superhero', 'blender'],
     videoUrl: 'https://www.youtube.com/watch?v=pKmSdY56VtY',
-    poster: 'https://images.unsplash.com/photo-1635805737707-575885ab0820?auto=format&fit=crop&w=800&q=80',
+    poster: 'https://img.youtube.com/vi/pKmSdY56VtY/hqdefault.jpg',
+    thumbnail: 'https://img.youtube.com/vi/pKmSdY56VtY/hqdefault.jpg',
     description: 'A Blender Grease Pencil 2D animation superhero showcase.'
   },
   {
@@ -142,7 +163,8 @@ const DEFAULT_MOVIES = [
     cast: ['Pablo Vazquez'],
     tags: ['llama', 'penguin', 'winter', 'snow', 'friendship'],
     videoUrl: 'https://www.youtube.com/watch?v=SkVqJ1SGeL0',
-    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Caminandes_-_Llamigos_-_poster.png/800px-Caminandes_-_Llamigos_-_poster.png',
+    poster: 'https://img.youtube.com/vi/SkVqJ1SGeL0/hqdefault.jpg',
+    thumbnail: 'https://img.youtube.com/vi/SkVqJ1SGeL0/hqdefault.jpg',
     description: 'Koro the llama and a little penguin make an unlikely friendship in the Patagonian winter.'
   },
   {
@@ -156,13 +178,20 @@ const DEFAULT_MOVIES = [
     cast: ['Max Schreck', 'Gustav von Wangenheim', 'Greta Schröder'],
     tags: ['vampire', 'dracula', 'expressionism', 'shadows', 'silent'],
     videoUrl: 'https://www.youtube.com/watch?v=FC6jFoYm3xs',
-    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nosferatu_Special_Poster.jpg/800px-Nosferatu_Special_Poster.jpg',
+    poster: 'https://img.youtube.com/vi/FC6jFoYm3xs/hqdefault.jpg',
+    thumbnail: 'https://img.youtube.com/vi/FC6jFoYm3xs/hqdefault.jpg',
     description: "F.W. Murnau's legendary 1922 expressionist horror film — the original vampire movie with the iconic Count Orlok."
   }
 ];
 
 function MovieCard({ movie, onWatch }) {
   const [hovered, setHovered] = useState(false);
+  const [imgSrc, setImgSrc] = useState(() => getMovieThumbnail(movie));
+
+  useEffect(() => {
+    setImgSrc(getMovieThumbnail(movie));
+  }, [movie]);
+
   const hrs = Math.floor(movie.durationMin / 60);
   const mins = movie.durationMin % 60;
   const durStr = hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
@@ -187,8 +216,19 @@ function MovieCard({ movie, onWatch }) {
       }}
     >
       <img
-        src={movie.poster}
+        src={imgSrc}
         alt={movie.title}
+        loading="lazy"
+        onError={() => {
+          if (movie.videoUrl) {
+            const ytMatch = movie.videoUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+            if (ytMatch && ytMatch[1] && imgSrc !== `https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`) {
+              setImgSrc(`https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`);
+              return;
+            }
+          }
+          setImgSrc('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80');
+        }}
         style={{
           width: '100%',
           height: '100%',

@@ -362,7 +362,14 @@ export default function Discover({
                 }}
               >
                 <img
-                  src={movie.poster}
+                  src={
+                    movie.thumbnail ||
+                    (movie.poster && !movie.poster.includes('wikimedia.org')
+                      ? movie.poster
+                      : movie.videoUrl?.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/)
+                      ? `https://img.youtube.com/vi/${movie.videoUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/)[1]}/hqdefault.jpg`
+                      : movie.poster)
+                  }
                   alt={movie.title}
                   loading="lazy"
                   style={{
@@ -371,8 +378,15 @@ export default function Discover({
                     objectFit: 'cover'
                   }}
                   onError={(e) => {
-                    e.currentTarget.src =
-                      'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80';
+                    const ytMatch =
+                      movie.videoUrl &&
+                      movie.videoUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+                    if (ytMatch && ytMatch[1] && !e.currentTarget.src.includes(ytMatch[1])) {
+                      e.currentTarget.src = `https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`;
+                    } else {
+                      e.currentTarget.src =
+                        'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80';
+                    }
                   }}
                 />
 
